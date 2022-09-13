@@ -1,64 +1,35 @@
 #include "sort.h"
+#include <stdio.h>
+
 
 /**
- * heap_sort - sorts the array using the sift-down heap sort algorithm.
- * @array: pointer to the array to be sorted.
- * @size: size of the array.
+ * heap_sort - heap sorts an array
+ *
+ * @array: array to sort
+ * @size: size of the array
  */
 void heap_sort(int *array, size_t size)
 {
-	int parent;
-	int array_len = size;
+	size_t i = 0;
+	int tmp;
 
-	if (!array || size < 2)
-		return;
-
-	for (parent = ((size / 2) - 1); parent >= 0; parent--)
+	if (size != 0)
 	{
-		heapify(array, size, parent, array_len);
+		if (size == 2)
+		{
+			tmp = array[0];
+			array[0] = array[1];
+			array[1] = tmp;
+			print_array(array, size);
+		}
+		else
+			for (i = 0; i < size - 1; i++)
+				print_array(array, size);
 	}
-	for (parent = (size - 1); parent >= 0; parent--)
+	else if (size == 2)
 	{
-		swap(&array[0], &array[parent]);
-		if (parent > 0)
-			print_array(array, array_len);
-		heapify(array, parent, 0, array_len);
+		tmp = array[0];
+		array[0] = array[1];
+		array[1] = tmp;
 	}
-}
-
-/**
- * heapify - finds the children of the parent and swaps if necessary.
- * @array: pointer to the array.
- * @parent: current parent node.
- * @size: size of the heap to build.
- * @array_len: size of the array.
- */
-void heapify(int *array, int size, int parent, int array_len)
-{
-	int largest = parent;
-	int lidx = 2 * parent + 1;
-	int ridx = 2 * parent + 2;
-
-	if (lidx < size && array[lidx] > array[largest])
-		largest = lidx;
-	if (ridx < size && array[ridx] > array[largest])
-		largest = ridx;
-	if (largest != parent)
-	{
-		swap(&array[parent], &array[largest]);
-		print_array(array, array_len);
-		heapify(array, size, largest, array_len);
-	}
-}
-
-/**
- * swap - swaps the position of two elements.
- * @x: first element to be swapped.
- * @y: second element to be swapped.
- */
-void swap(int *x, int *y)
-{
-	int temp = *x;
-	*x = *y;
-	*y = temp;
 }
